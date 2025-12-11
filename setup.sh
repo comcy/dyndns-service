@@ -51,34 +51,38 @@ else
     # Write to .env file
     echo "INWX_USER=${INWX_USER}" >> "$ENV_FILE"
     echo "INWX_PASS=${INWX_PASS}" >> "$ENV_FILE"
-    echo "EXECUTION_INTERVAL=300" >> "$ENV_FILE" # Default 5 minutes
     
     echo ".env-Datei erfolgreich erstellt."
 fi
 
-# 5. Configure the systemd service file
+# 5. Configure the systemd service and timer files
 SERVICE_TEMPLATE="$PROJECT_DIR/dyndns-update.service"
 CONFIGURED_SERVICE_FILE="/etc/systemd/system/dyndns-update.service"
+TIMER_TEMPLATE="$PROJECT_DIR/dyndns-update.timer"
+CONFIGURED_TIMER_FILE="/etc/systemd/system/dyndns-update.timer"
 
-echo "Konfiguriere systemd Service-Datei..."
+echo "Konfiguriere systemd Service- und Timer-Dateien..."
 
-# Replace placeholders in the service file and create the new one
-# Using sed with different delimiters to avoid issues with paths containing '/'
- sed \
+# Replace placeholders in the service file
+sed \
   -e "s|<BENUTZER>|$ORIGINAL_USER|g" \
   -e "s|<PFAD_ZUM_PROJEKT>|$PROJECT_DIR|g" \
   "$SERVICE_TEMPLATE" > "$CONFIGURED_SERVICE_FILE"
 
-echo "Service-Datei erstellt unter $CONFIGURED_SERVICE_FILE"
+# Copy the timer file
+cp "$TIMER_TEMPLATE" "$CONFIGURED_TIMER_FILE"
 
-# 6. Reload systemd, enable and start the service
-echo "Lade systemd neu und starte den Service..."
+echo "Service- und Timer-Dateien erstellt unter /etc/systemd/system/"
+
+# 6. Reload systemd, enable and start the timer
+echo "Lade systemd neu und starte den Timer..."
 systemctl daemon-reload
-systemctl enable dyndns-update.service
-systemctl start dyndns-update.service
+systemctl enable dyndns-update.timer
+systemctl start dyndns-update.timer
 
-echo "Service 'dyndns-update' wurde aktiviert und gestartet."
+echo "Timer 'dyndns-update.timer' wurde aktiviert und gestartet."
 echo ""
 echo "Setup abgeschlossen!"
-echo "Du kannst den Status des Services mit 'systemctl status dyndns-update' überprüfen."
-echo "Die Logs findest du mit 'journalctl -u dyndns-update -f'."
+echo "Der Dienst wird nun alle 5 Minuten ausgeführt. Status der Timer:"
+echo "systemctl list-timers | grep dyndns"
+echo "Die Logs der einzelnen Ausführungen findest du mit 'journalctl -u dyndns-update.service'."

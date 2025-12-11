@@ -16,10 +16,5 @@ ExecStart=/usr/bin/node <PFAD_ZUM_PROJEKT>/src/dydns-update.js
 # Lädt die Umgebungsvariablen aus der .env-Datei im Projektverzeichnis
 EnvironmentFile=<PFAD_ZUM_PROJEKT>/.env
 
-# Die folgende Zeile sorgt dafür, dass der Dienst neu gestartet wird.
-# Das Intervall wird aus der .env-Datei gelesen (Standard: 300s).
-Restart=on-failure
-RestartSec=${EXECUTION_INTERVAL}
-
 [Install]
 WantedBy=multi-user.target
