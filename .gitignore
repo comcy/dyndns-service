@@ -139,4 +139,4 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 
-.env
+.env\n# Ignore environment files with sensitive data\n.env\n\n# Ignore node modules\nnode_modules/
