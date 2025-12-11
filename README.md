@@ -71,7 +71,26 @@ Das `setup.sh`-Skript automatisiert die komplette Einrichtung.
         sudo systemctl start dyndns-update.timer
         ```
 
-## 3. Alternative Methode: Cronjob (Veraltet)
+## 3. Deinstallation
+
+Um den Dienst vollständig von deinem System zu entfernen, wird ein Deinstallations-Skript mitgeliefert.
+
+1.  **Wechsle in das Projektverzeichnis:**
+    ```bash
+    cd /pfad/zum/dyndns-service
+    ```
+
+2.  **Deinstallations-Skript ausführen:**
+    Führe das Skript mit Root-Rechten aus.
+    ```bash
+    sudo ./uninstall.sh
+    ```
+    Das Skript wird:
+    *   Den systemd Timer und Service stoppen und deaktivieren.
+    *   Die systemd-Dateien aus `/etc/systemd/system` entfernen.
+    *   Dich fragen, ob das gesamte Projektverzeichnis (inklusive deiner Konfiguration) ebenfalls gelöscht werden soll.
+
+## 4. Alternative Methode: Cronjob (Veraltet)
 
 Ein Cronjob kann ebenfalls verwendet werden, die empfohlene Methode ist jedoch der systemd Timer, da er eine bessere Integration in das System (Logging, Status-Abfragen) bietet.
 ```bash
