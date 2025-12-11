@@ -24,10 +24,16 @@ Stelle sicher, dass auf deinem System (z.B. dein Ubuntu LXC) **Node.js** und **n
     
     **Wichtig:** Du musst im INWX Web-Interface unter "DynDNS" einen separaten DynDNS-Benutzer anlegen und diesem den zu aktualisierenden Hostnamen zuweisen.
     
-    Füge folgenden Inhalt in die `.env`-Datei ein und ersetze die Platzhalter mit den Daten deines **DynDNS-Benutzers**:
+    Füge folgenden Inhalt in die `.env`-Datei ein und ersetze die Platzhalter:
     ```env
+    # --- INWX DynDNS Zugangsdaten ---
+    # (Diese erhältst du im INWX Web-Interface unter "DynDNS")
     INWX_USER=dein_dyndns_benutzername
     INWX_PASS=dein_dyndns_passwort
+
+    # --- Service Konfiguration ---
+    # Intervall in Sekunden, in dem der Service nach Beendigung neu gestartet wird.
+    EXECUTION_INTERVAL=300
     ```
 
 ## 2. Ausführung als Dienst (empfohlen)
