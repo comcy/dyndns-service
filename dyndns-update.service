@@ -1,0 +1,22 @@
+[Unit]
+Description=DynDNS Update Service for INWX
+After=network.target
+
+[Service]
+Type=simple
+
+# Ändere <BENUTZER> zu dem Benutzernamen, unter dem das Skript laufen soll (z.B. root oder www-data)
+User=<BENUTZER>
+
+# Ändere <PFAD_ZUM_PROJEKT> zum absoluten Pfad deines Projektverzeichnisses
+# z.B. /home/user/dyndns-service
+WorkingDirectory=<PFAD_ZUM_PROJEKT>
+ExecStart=/usr/bin/node <PFAD_ZUM_PROJEKT>/src/dydns-update.js
+
+# Die folgende Zeile sorgt dafür, dass der Dienst neu gestartet wird,
+# falls er fehlschlägt.
+Restart=on-failure
+RestartSec=300
+
+[Install]
+WantedBy=multi-user.target
